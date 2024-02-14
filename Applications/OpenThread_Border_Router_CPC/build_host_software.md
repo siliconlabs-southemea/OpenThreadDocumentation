@@ -50,7 +50,7 @@ cd ~/border_router_dev
 And clone Gecko SDK version 4.4.0 :
 
 ```bash
-git-lfs clone https://github.com/SiliconLabs/gecko_sdk.git
+git clone https://github.com/SiliconLabs/gecko_sdk.git
 cd gecko_sdk
 git checkout v4.4.0
 ```
@@ -64,19 +64,16 @@ Building OTBR Agent requires a lot of extra steps from GSDK.
    ```bash
    ln -s ~/border_router_dev/gecko_sdk/util/third_party/openthread/ ~/border_router_dev/gecko_sdk/util/third_party/ot-br-posix/third_party/openthread/repo 
    ```
-
 2. Copy the Silicon Labs specific platform header to the ot-br-posix folder
 
    ```bash
    cp protocol/openthread/platform-abstraction/posix/openthread-core-silabs-posix-config.h util/third_party/openthread/src/posix/platform/
    ```
-
 3. Set the GSDK absolute path as an environment variable
 
    ```bash
    export GSDK_DIR=~/border_router_dev/gecko_sdk
    ```
-
 4. Set the CPCd source directory path as an environment variable
 
    ```bash
@@ -124,26 +121,19 @@ Once in the package manager, got to the `SDK` tab and click `Add SDK`
 
 <img src="./images/buildHostSoftware_SDK_clone.png" alt="Install SDK version" width="600" class="center">
 
-When done, go back the `Launcher` perspective of the IDE (Main Menu) and do precisely as follows : 
+When done, go back the `Launcher` perspective of the IDE (Main Menu) and do precisely as follows :
 
 1. Locate the `My Products` view and type `linux` in the textbox
-
 2. Click `Linux 64 bit` and/or `Linux 32 bit` depending on the architecture you run your hosts
-
 3. You should now have a `Linux 64 Bit` listed in the products view
-
 4. Click `Linux 64 Bit` listed in the products view, this should rearrange the `Launcher` so you can create a project for Linux archs on GSDK 4.4.0
-
 5. Click `Create New Project` in the main view
 
    <img src="./images/buildHostSoftware_Launcher_Create_Project.png" alt="Launcher" width="600" class="center">
-
 6. In the examples list, look for `Zigbee - Gateway CPC` and click `Next`
-
 7. In the `With project files:` select `Copy contents` and then click `Finish`
 
    <img src="./images/buildHostSoftware_Wizard_finish.png" alt="Wizard" width="600" class="center">
-
 
 At this point we have a default CPC Host project that we can either cross compile locally or push on our Gateway and build there.
 
@@ -172,4 +162,3 @@ make -f Z3GatewayCpc.Makefile -j2
 ```
 
 The resulting executable file will be located under `build/debug/Z3GatewayCpc`
-

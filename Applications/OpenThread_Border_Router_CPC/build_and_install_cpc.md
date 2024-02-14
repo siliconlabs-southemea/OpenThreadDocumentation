@@ -32,7 +32,7 @@ git clone https://github.com/SiliconLabs/cpc-daemon.git
 Go to the cloned repo :
 
 ```bash
-cd cpc_daemon
+cd cpc-daemon
 ```
 
 From there, you can simply follow these [build instructions](https://github.com/SiliconLabs/cpc-daemon?tab=readme-ov-file#compiling-cpcd) provided by Silicon Labs :
@@ -89,6 +89,17 @@ If everything goes fine you should get below output :
 ```
 
 **Note : If your purpose is to evaluate the setup, you can disable CPC link encryption by setting `disable_encryption: true` in `cpcd.conf`. This requires you to also disable this in the EFR32 firmware CPC configuration**
+
+### Using Raspberry UART from 40 Pin header and keep BT for Matter
+
+It is possible to optimize even more hardware and connect EFR32 directly using 40 pin header od the RPi and the EXP header of the SIlicon Labs devkit
+
+This requires a modification in `/boot/firmware/config.txt` . Simply add the two lines below at the end of the file :
+
+```plaintext
+dtoverlay=miniuart-bt
+enable_uart=1
+```
 
 ### Install
 

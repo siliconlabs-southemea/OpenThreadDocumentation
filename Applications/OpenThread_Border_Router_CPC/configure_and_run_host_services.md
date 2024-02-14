@@ -8,6 +8,7 @@ sort: 5
 CPC configuration is located in `/usr/local/etc/cpcd.conf`. It is overwritten everytime `make intall` is called by a developper.
 
 By default cpcd.conf is set as :
+
 ```text
 instance_name: cpcd_0
 bus_type: UART
@@ -21,7 +22,6 @@ CPC daemon is meant to be ran as a service. Also, once installed, it is availabl
 Steps to run it are :
 
 1. Open a dedicated terminal or ssh session
-
 2. Call `cpcd` from it
 
 At this point, if `/etc/cpcd.conf` was set correctly, communication with the devkit should happen correctly and output shoud resemble :
@@ -80,10 +80,8 @@ This is passed as an argument to Z3GatewayCpc and defaults to cpcd_0
 Therefore to run the Zigbee host :
 
 1. Open a dedicated terminal or ssh session
-
 2. cd in `~/border_router_dev/Z3GatewayCpc`
-
-2. Call `./build/debug/Z3GatewayCpc` from it
+3. Call `./build/debug/Z3GatewayCpc` from it
 
 At this point, if all was set correctly, communication with the cpcd instance happen correctly and output shoud resemble :
 
@@ -160,11 +158,11 @@ Z3GatewayCpc>
 
 ## Configuring and Running OTBR Agent
 
-Contrary to the other services, `otbr-agent` requires a change in itas default configuration to run with CPC 
+Contrary to the other services, `otbr-agent` requires a change in itas default configuration to run with CPC
 
-Change needs to be done in `/etc/default/otbr-agent` so it looks like : 
+Change needs to be done in `/etc/default/otbr-agent` so it looks like :
 
-```text 
+```text
 # Default settings for otbr-agent. This file is sourced by systemd
 
 # Options to pass to otbr-agent
@@ -172,7 +170,6 @@ Change needs to be done in `/etc/default/otbr-agent` so it looks like :
 OTBR_AGENT_OPTS="-I wpan0 -B eth0 spinel+cpc://cpcd_0?iid=2&iid-list=0 trel://eth0"
 OTBR_NO_AUTO_ATTACH=1
 ```
-
 
 ```
 ubuntu@ubuntu-desktop:~$ sudo service otbr-agent status
@@ -198,3 +195,47 @@ févr. 13 19:24:09 ubuntu-desktop otbr-agent[23434]: [INFO]-MDNS----: Successful
 févr. 13 19:24:09 ubuntu-desktop otbr-agent[23434]: [INFO]-BA------: Result of publish meshcop service OpenThread BorderR>
 févr. 13 19:24:09 ubuntu-desktop otbr-agent[23434]: [INFO]-BA------: Result of publish meshcop service OpenThread BorderR
 ```
+
+## Turn CPCd into a service
+
+To turn CPCd into a service, we will take advantage of the fact that we are running in a distribution that has systemd
+
+Thus, simply create file `/etc/systemd/system/cpcd.service` with contents as below : 
+
+```text
+[Unit]
+Description=CPC Daemon Service
+ConditionPathExists=/dev/ttyACM0
+
+[Service]
+ExecStart=/usr/local/bin/cpcd
+KillMode=mixed
+Restart=on-failure
+RestartSec=5
+RestartPreventExitStatus=SIGKILL
+
+[Install]
+WantedBy=multi-user.target
+Alias=cpcd.service
+
+```
+
+And then enable and start it : 
+
+```bash
+sudo systemctl enable cpcd.service
+sudo systemctl start cpcd.service
+sudo systemctl status cpcd.service
+```
+
+## Troubleshoot
+
+Running CPCd if you get permission error `Permission denied`
+
+Simply add the current user to the dialout group by calling
+
+```bash
+sudo usermod -a -G dialout $USER
+```
+
+And reboot.
