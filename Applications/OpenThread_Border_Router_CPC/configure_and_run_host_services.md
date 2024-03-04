@@ -200,7 +200,7 @@ févr. 13 19:24:09 ubuntu-desktop otbr-agent[23434]: [INFO]-BA------: Result of 
 
 To turn CPCd into a service, we will take advantage of the fact that we are running in a distribution that has systemd
 
-Thus, simply create file `/etc/systemd/system/cpcd.service` with contents as below : 
+Thus, simply create file `/etc/systemd/system/cpcd.service` with contents as below :
 
 ```text
 [Unit]
@@ -220,7 +220,7 @@ Alias=cpcd.service
 
 ```
 
-And then enable and start it : 
+And then enable and start it :
 
 ```bash
 sudo systemctl enable cpcd.service
