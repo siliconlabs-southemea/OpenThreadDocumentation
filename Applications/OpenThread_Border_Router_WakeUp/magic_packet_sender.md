@@ -16,7 +16,7 @@ list of the available commands issue the help command.
 
 Once your packet has been customized, use the `send` command to send the packet and wake-up the RCP.
 
-# Testing the wake-up functionality
+# Testing the magic packet detection
 
 Follow this sequence (tested on BRD4166A) to validate the behavior: 
 
