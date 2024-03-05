@@ -1,5 +1,5 @@
 ---
-sort: 5
+sort: 4
 ---
 
 # 5- Matter Chip-Tool Build and Common usage 

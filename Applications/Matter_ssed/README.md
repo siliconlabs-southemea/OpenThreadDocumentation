@@ -1,5 +1,5 @@
 ---
-sort: 6
+sort: 5
 ---
 
 # 6- Matter Synchronized Sleepy End Device usage

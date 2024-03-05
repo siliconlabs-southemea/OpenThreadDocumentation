@@ -59,7 +59,7 @@ In order to be woken-up on a specifc 802.15.4 packet some modificationare necess
     uint8_t volatile sleeping = 0;
     static otInstance* sInstance = NULL;
 
-    /* Use a GPIO to enter sleep mode */
+    /* Use falling edge of a GPIO to enter sleep mode */
     void GO_TO_SLEEP_gpio_callback(void)
     {
       uint8_t v = GPIO_PinInGet(GO_TO_SLEEP_GPIO_PORT, GO_TO_SLEEP_GPIO_PIN);
@@ -127,4 +127,4 @@ In order to be woken-up on a specifc 802.15.4 packet some modificationare necess
 
 ## Build and Flash the RCP
 
-After compilation, flash the firmware into EFR32. Don't forget to add a bootloader.
+After compilation, flash the firmware into EFR32. Don't forget to add a bootloader. If you want to use printf for debugging, enable the `Tiny printf` component and the `IOsStream RTT` component, and use a RTT console to display log.
