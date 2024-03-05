@@ -1,7 +1,7 @@
 ---
 sort: 4
 ---
-# OpenThread Border Router CPC setup for Matter and Zigbee CMP Development
+# 4- OpenThread Border Router CPC setup for Matter and Zigbee CMP Development
 
 ## Summary
 

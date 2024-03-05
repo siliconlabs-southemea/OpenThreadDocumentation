@@ -2,7 +2,7 @@
 sort: 4
 ---
 
-# 5- Matter Chip-Tool Build and Common usage 
+# 4- Matter Chip-Tool Build and Common usage 
 
 ## Summary ##
 {% include list.liquid all=true %}
