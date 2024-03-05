@@ -1,8 +1,8 @@
 ---
-sort: 5
+sort: 6
 ---
 
-# 5- Matter Synchronized Sleepy End Device usage
+# 6- Matter Synchronized Sleepy End Device usage
 
 ## Summary ##
 {% include list.liquid all=true %}

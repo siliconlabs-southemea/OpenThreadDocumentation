@@ -1,8 +1,8 @@
 ---
-sort: 2
+sort: 3
 ---
 
-# 2- Matter Dev Environment Setup
+# 3- Matter Dev Environment Setup
 
 ## Summary ##
 {% include list.liquid all=true %}

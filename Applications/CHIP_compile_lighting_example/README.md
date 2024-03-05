@@ -1,8 +1,8 @@
 ---
-sort: 3
+sort: 5
 ---
 
-# 3- Matter Building and Running Lighting App Example
+# 5- Matter Building and Running Lighting App Example
 
 ## Summary ##
 {% include list.liquid all=true %}
