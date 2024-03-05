@@ -1,5 +1,5 @@
 ---
-sort: 1
+sort: 6
 ---
 
 # 1- OpenThread Border Router Radio Co-Processor (RCP) wake-up with 802.15.4 frame
