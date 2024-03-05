@@ -4,7 +4,7 @@ sort: 3
 
 # Magic Packet sender
 
-Use the `rail_soc_simple_trx_std` example to send magic packet. By default example send/receive 802.15.4 frame, so you don't need to modify frame format.
+Use the `rail_soc_simple_trx_std` example to send magic packet. By default example sends/receives 802.15.4 frame, so you don't need to modify frame format.
 
 <img src="./images/simple_trx.png" alt="startup" width="600" class="center">
 
@@ -18,9 +18,9 @@ Once your packet has been customized, use the `send` command to send the packet 
 
 # Testing the wake-up functionality
 
-If you are using a BRD4166A, follow this sequence to validate the behavior:
+Follow this sequence (tested on BRD4166A) to validate the behavior: 
 
-1.  Start the OTBR and create a Thread network. To do so, follow [this guide]({{ site.github.url }}/OpenThread/Applications/OpenThread_Border_Router/create_network.md)
+1.  Start the OTBR and create a Thread network. To do so, follow [this guide](https://siliconlabs-southemea.github.io/OpenThread/Applications/OpenThread_Border_Router/create_network.html)
 2.  Retrieve PanId of the created Thread network.
 
     ```bash
