@@ -91,7 +91,7 @@ In order to be woken-up on a specifc 802.15.4 packet some modificationare necess
       
       //GPIOINT_Init() and CMU_ClockEnable(cmuClock_GPIO) have already been called
 
-      // Configure Button PB1 as input and enable interrupt
+      // Configure Button as input and enable interrupt
       GPIO_PinModeSet(ENTER_MAGIC_PKT_MODE_GPIO_PORT, ENTER_MAGIC_PKT_MODE_GPIO_PIN, gpioModeInputPull, 1);
       GPIO_ExtIntConfig(ENTER_MAGIC_PKT_MODE_GPIO_PORT,
                         ENTER_MAGIC_PKT_MODE_GPIO_PIN,
@@ -105,7 +105,7 @@ In order to be woken-up on a specifc 802.15.4 packet some modificationare necess
       GPIOINT_CallbackRegister(ENTER_MAGIC_PKT_MODE_GPIO_PIN, ENTER_MAGIC_PKT_MODE_GPIO_callback);
       GPIO_IntEnable(1<<ENTER_MAGIC_PKT_MODE_GPIO_PIN);
 
-      // Configure LED0 as a push pull output for LED drive
+      // Configure LED as a push pull output for LED drive
       GPIO_PinModeSet(MAGIC_PKT_FOUND_GPIO_PORT, MAGIC_PKT_FOUND_GPIO_PIN, gpioModePushPull, 0);
     }
     ```
