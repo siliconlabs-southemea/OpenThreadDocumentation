@@ -50,23 +50,23 @@ In order to be woken-up on a specifc 802.15.4 packet some modificationare necess
     #include "em_gpio.h"
     #include "gpiointerrupt.h"
 
-    #define GO_TO_SLEEP_GPIO_PORT gpioPortD
-    #define GO_TO_SLEEP_GPIO_PIN  14
+    #define ENTER_MAGIC_PKT_MODE_GPIO_PORT gpioPortD
+    #define ENTER_MAGIC_PKT_MODE_GPIO_PIN  14
 
-    #define WAKE_UP_CMD_GPIO_PORT gpioPortD
-    #define WAKE_UP_CMD_GPIO_PIN  8
+    #define MAGIC_PKT_FOUND_GPIO_PORT gpioPortD
+    #define MAGIC_PKT_FOUND_GPIO_PIN  8
 
-    uint8_t volatile sleeping = 0;
+    uint8_t volatile magic_pkt_mode = 0;
     static otInstance* sInstance = NULL;
 
-    /* Use falling edge of a GPIO to enter sleep mode */
-    void GO_TO_SLEEP_gpio_callback(void)
+    /* Use falling edge of a GPIO to enter magic packet detection mode */
+    void ENTER_MAGIC_PKT_MODE_GPIO_callback(void)
     {
-      uint8_t v = GPIO_PinInGet(GO_TO_SLEEP_GPIO_PORT, GO_TO_SLEEP_GPIO_PIN);
+      uint8_t v = GPIO_PinInGet(ENTER_MAGIC_PKT_MODE_GPIO_PORT, ENTER_MAGIC_PKT_MODE_GPIO_PIN);
 
       /* Check if falling edge */
       if (v == 0)
-        sleeping = 1;
+        magic_pkt_mode = 1;
     }
 
     /* Raise a GPIO when magic packet is detected */
@@ -77,11 +77,11 @@ In order to be woken-up on a specifc 802.15.4 packet some modificationare necess
       uint16_t src = *(uint16_t *)((aFrame->mPsdu) + 7);
 
       /* Any other tests can be added there */
-      if ((sleeping == 1) && (panId == otLinkGetPanId(sInstance)) &&
+      if ((magic_pkt_mode == 1) && (panId == otLinkGetPanId(sInstance)) &&
           (dst == 0xFFFF) && (src == 0xFFFF))
       {
-        GPIO_PinOutSet(WAKE_UP_CMD_GPIO_PORT, WAKE_UP_CMD_GPIO_PIN);
-        sleeping = 0;
+        GPIO_PinOutSet(MAGIC_PKT_FOUND_GPIO_PORT, MAGIC_PKT_FOUND_GPIO_PIN);
+        magic_pkt_mode = 0;
       }
     }
 
@@ -92,25 +92,24 @@ In order to be woken-up on a specifc 802.15.4 packet some modificationare necess
       //GPIOINT_Init() and CMU_ClockEnable(cmuClock_GPIO) have already been called
 
       // Configure Button PB1 as input and enable interrupt
-      GPIO_PinModeSet(GO_TO_SLEEP_GPIO_PORT, GO_TO_SLEEP_GPIO_PIN, gpioModeInputPull, 1);
-      GPIO_ExtIntConfig(GO_TO_SLEEP_GPIO_PORT,
-                        GO_TO_SLEEP_GPIO_PIN,
-                        GO_TO_SLEEP_GPIO_PIN,
+      GPIO_PinModeSet(ENTER_MAGIC_PKT_MODE_GPIO_PORT, ENTER_MAGIC_PKT_MODE_GPIO_PIN, gpioModeInputPull, 1);
+      GPIO_ExtIntConfig(ENTER_MAGIC_PKT_MODE_GPIO_PORT,
+                        ENTER_MAGIC_PKT_MODE_GPIO_PIN,
+                        ENTER_MAGIC_PKT_MODE_GPIO_PIN,
                         false,
                         true,
                         true);
 
 
       // Register callback functions and enable interrupts
-      GPIOINT_CallbackRegister(GO_TO_SLEEP_GPIO_PIN, GO_TO_SLEEP_gpio_callback);
-      GPIO_IntEnable(1<<GO_TO_SLEEP_GPIO_PIN);
+      GPIOINT_CallbackRegister(ENTER_MAGIC_PKT_MODE_GPIO_PIN, ENTER_MAGIC_PKT_MODE_GPIO_callback);
+      GPIO_IntEnable(1<<ENTER_MAGIC_PKT_MODE_GPIO_PIN);
 
       // Configure LED0 as a push pull output for LED drive
-      GPIO_PinModeSet(WAKE_UP_CMD_GPIO_PORT, WAKE_UP_CMD_GPIO_PIN, gpioModePushPull, 0);
+      GPIO_PinModeSet(MAGIC_PKT_FOUND_GPIO_PORT, MAGIC_PKT_FOUND_GPIO_PIN, gpioModePushPull, 0);
     }
     ```
-    We discriminate the magic packet here based on panId, SrcId and DstId of 802.15.4 received packet. We also use A GPIO to know when sleeping 
-    mode has been entered. This code has been tested on BRD4166a only. You will have to modify `WAKE_UP_CMD_GPIO` and `GO_TO_SLEEP_GPIO` to have 
+    We discriminate the magic packet here based on panId, SrcId and DstId of 802.15.4 received packet. We also use A GPIO to start searching for the magic packet. This code has been tested on BRD4166a only. You will have to modify `MAGIC_PKT_FOUND_GPIO` and `ENTER_MAGIC_PKT_MODE_GPIO` to have 
     it work on another platform.
     
 3.  Call `magic_packet_init()` function from app_init():
@@ -127,4 +126,4 @@ In order to be woken-up on a specifc 802.15.4 packet some modificationare necess
 
 ## Build and Flash the RCP
 
-After compilation, flash the firmware into EFR32. Don't forget to add a bootloader. If you want to use printf for debugging, enable the `Tiny printf` component and the `IOsStream RTT` component, and use a RTT console to display log.
+After compilation, flash the firmware into EFR32. Don't forget to add a bootloader. If you want to use printf for debugging, enable the `Tiny printf` component and the `IOStream RTT` component, and use a RTT console to display log.

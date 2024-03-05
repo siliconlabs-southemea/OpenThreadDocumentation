@@ -18,4 +18,8 @@ sort: 1
      
 
      
+## General setup
 
+This is a global picture of the setup:
+
+<img src="./images/view.png" alt="startup" width="600" class="center">
