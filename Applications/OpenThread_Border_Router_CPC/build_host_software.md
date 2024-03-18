@@ -16,24 +16,71 @@ CPCd version numbering aligns with Silicon Labs Gecko SDK version. OTBR sources 
 
 Eventually, since we are interested in running Matter, we will need to align version numbering with it too
 
-## Identifying Matter related software commit hashes
+## Identifying Matter/OpenThread related software commit hashes
 
-* CPC latest version is available on its [release page](https://github.com/SiliconLabs/cpc-daemon/releases/tag/v4.4.0)
+* Start from CPC, which latest version is available on its [release page](https://github.com/SiliconLabs/cpc-daemon/releases/tag/v4.4.0)
   * In this case we are running `v4.4.0`
   * This can also be retrived on an deployed environment using `cpcd -v`
+
 * From there we need to look at the [GSDK release page](https://github.com/SiliconLabs/gecko_sdk/releases) that matches v4.4.0 and look for the [OpenThread Release note](https://www.silabs.com/documents/public/release-notes/open-thread-release-notes-2.4.0.0.pdf) of that release
   * Section 8.2 provides : OpenThread GitHub repo (https://github.com/openthread/openthread)
     up to and including commit `7074a43e4`
   * Section 8.3 provides : OpenThread border router GitHub repo
     (https://github.com/openthread/ot-br-posix) up to and including commit `42f98b27b`
+
 * Finally, if we want to use Matter over this router, we need to go to Silicon Labs' `matter_extension` repository [release page](https://github.com/SiliconLabs/matter_extension/releases) and look for the one that uses the same `v4.4.0` as we are, this appears to be [Matter Extension v2.2.0](https://github.com/SiliconLabs/matter_extension/releases/tag/v2.2.0)-1.2
+
   * Version listing provides : Gecko SDK `v4.4.0`
   * Version listing provides : OpenThread: `v2.4.0.0` | hash [7074a43e4](https://github.com/openthread/openthread/tree/7074a43e4)
   * Version listing provides : Matter hash `d140d5c8775`
 
-At this point we are sure that Gecko SDK and OpenThread versions and hashes align
+At this point we are sure that Gecko SDK and OpenThread versions and hashes align . We also know which Matter and OTBR hash we will be using
 
-We also know which Matter and OTBR hash we will be using
+In summary for developments with RCP from Simplicity Studio on GSDK 4.4.0 will require following hashes :
+
+### CPC Daemon (CPCd)
+
+| Repo                                      | Branch | Tag    | Commit Hash                              |
+| ----------------------------------------- | ------ | ------ | ---------------------------------------- |
+| https://github.com/SiliconLabs/cpc-daemon | main   | v4.4.0 | 1fcaa81347466165f81e4533ee4471e9c3b6db0a |
+
+### Gecko SDK Suite (GSDK)
+
+| Repo                                     | Branch   | Tag    | Commit Hash                              |
+| ---------------------------------------- | -------- | ------ | ---------------------------------------- |
+| https://github.com/SiliconLabs/gecko_sdk | gsdk_4.4 | v4.4.0 | 124fa19de8c8b3961d21c20857f7df32239786da |
+
+If chiptool build is required :
+
+### Connectivity Standards Alliance (CSA) connectedhomeip (Matter)
+
+| Repo                                            | Branch | Tag    | Commit Hash                              |
+| ----------------------------------------------- | ------ | ------ | ---------------------------------------- |
+| https://github.com/project-chip/connectedhomeip | master |        | d140d5c87751603278f2483523993ee81922e7be |
+
+
+### Silicon Labs fork of Connectivity Standards Alliance (CSA) connectedhomeip (Matter) used in Simplicity Studio
+
+This does not allow build of chip-tool (Use CSA main repo)
+This does not allow builds **outside of Simplicity Studio**
+
+| Repo                                            | Branch | Tag    | Commit Hash                              |
+| ----------------------------------------------- | ------ | ------ | ---------------------------------------- |
+| https://github.com/SiliconLabs/matter_extension | main   | v2.2.0 | 73910fc57180440b09722040b1c847d5030e156e |
+
+If required, everything can be built from sources using below each repo hash (Not covered in this guide, where we cover only building from GSDK) :
+
+### OpenThread for RCP build
+
+| Repo                                     | Branch | Tag | Commit Hash                              |
+| ---------------------------------------- | ------ | --- | ---------------------------------------- |
+| https://github.com/openthread/openthread | main   |     | 7074a43e4577d32d5535d52e7940ed2ea7e3a528 |
+
+### OpenThread Border Router (OTBR)
+
+| Repo                                       | Branch | Tag    | Commit Hash                              |
+| ------------------------------------------ | ------ | ------ | ---------------------------------------- |
+| https://github.com/openthread/ot-br-posix  | main   | v4.4.0 | 42f98b27bc7f54951c860cd98ce5ff7c7fedc68c |
 
 ## Downloading and Building OTBR Agent
 

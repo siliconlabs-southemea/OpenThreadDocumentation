@@ -49,28 +49,20 @@ In case your building on a Raspberry Pi, build may end up failing due to limited
 In this case two extra steps may be required :
 
 1. Increase SWAP partition to at least 4GB
-    ```bash
-    TODO
-    ```
+   ```bash
+   sudo swapoff -a
+   sudo fallocate -l 8G /swapfile
+   sudo chmod 600 /swapfile
+   sudo mkswap /swapfile
+   sudo swapon /swapfile
+   ```
 2. Reduce the number of cores used for building the tool
-    Go edit `scripts/examples/gn_build_example.sh` and add the following ninja argument :
-    ```text
-    NINJA_ARGS=(-j 1)
-    ```
+   Go edit `scripts/examples/gn_build_example.sh` and add the following ninja argument :
+   ```text
+   NINJA_ARGS=(-j 1)
+   ```
 
 From this point, steps from the regular OTBR guide can be followed :
 
 Matter Chip-Tool Build and Common usage at section usage
 https://siliconlabs-southemea.github.io/OpenThread/Applications/CHIP_use_chip_tool/commision_and_test.html
-
-## Troubleshoot
-
-If the chip tool build freezes, on a RPi, you are likely running out of RAM . Increase the SWAP to 8GB
-
-```
-sudo swapoff -a
-sudo fallocate -l 8G /swapfile
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile
-```
