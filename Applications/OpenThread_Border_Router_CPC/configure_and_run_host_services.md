@@ -198,7 +198,13 @@ févr. 13 19:24:09 ubuntu-desktop otbr-agent[23434]: [INFO]-BA------: Result of 
 
 ## Turn CPCd into a service
 
-To turn CPCd into a service, we will take advantage of the fact that we are running in a distribution that has systemd
+To turn CPCd into a service, we will take advantage of the fact that we are running in a distribution that has systemd. 
+
+First we need to authorize the current user to be part of the `dialout` group :
+
+```bash
+sudo usermod -a -G dialout $USER
+```
 
 Thus, simply create file `/etc/systemd/system/cpcd.service` with contents as below :
 
@@ -208,6 +214,8 @@ Description=CPC Daemon Service
 ConditionPathExists=/dev/ttyACM0
 
 [Service]
+User=ubuntu
+Group=dialout
 ExecStart=/usr/local/bin/cpcd
 KillMode=mixed
 Restart=on-failure
@@ -227,15 +235,3 @@ sudo systemctl enable cpcd.service
 sudo systemctl start cpcd.service
 sudo systemctl status cpcd.service
 ```
-
-## Troubleshoot
-
-Running CPCd if you get permission error `Permission denied`
-
-Simply add the current user to the dialout group by calling
-
-```bash
-sudo usermod -a -G dialout $USER
-```
-
-And reboot.
