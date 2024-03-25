@@ -1,18 +1,18 @@
 ---
-sort: 1
+sort: 10
 ---
-# Moving Railtest interface to CPC
+# Adding a dedicated CPC path for a CLI to RCP
 
 ## Summary
 
 {% include list.liquid all=true %}
 
-**Written on March 13th 2024**
+**Written on March 25th 2024**
 **using SDK v4.4.0**
 
 ## Description
 
-This guide helps moving Railtest interface from the UART to CPC to access it through SPI or UART
+This guide helps adding a dedicated CPC path for a CLI to RCP. This enables custom features to be added to a regular RCP without modifying its code.
 
 ## Need Help ?
 
