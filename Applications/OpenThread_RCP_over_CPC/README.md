@@ -1,7 +1,7 @@
 ---
 sort: 9
 ---
-# OpenThread RCP over CPC
+# 9- OpenThread RCP over CPC
 
 {% include list.liquid all=true %}
 
@@ -9,7 +9,7 @@ sort: 9
 
 This article explains how to customize a regular OpenThread RCP to support communication over Silicon Labs CPC communication protocol
 
-This allows an easier migration path from one protocol to another using CPCd 
+This allows an easier migration path from one protocol to another using CPCd
 
 ## Disclaimer
 

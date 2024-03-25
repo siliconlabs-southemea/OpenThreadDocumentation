@@ -1,7 +1,7 @@
 ---
 sort: 10
 ---
-# Adding a dedicated CPC path for a CLI to RCP
+# 10- Adding a dedicated CPC path for a CLI to RCP
 
 ## Summary
 
