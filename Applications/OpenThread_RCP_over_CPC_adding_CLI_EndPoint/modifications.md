@@ -1,7 +1,7 @@
 ---
 sort: 3
 ---
-## Modification to add CPC 
+# Modifications to add a dedicated CPC path for a CLI to RCP
 
 1. Select the project file (.slcp)
 2. go to the Software Components view
