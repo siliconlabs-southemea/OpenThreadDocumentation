@@ -26,14 +26,11 @@ Steps are as below :
 
 1. Just as we did for the Z3GatewayCpc, we will use Simplicity Studio Launcher to list and create a BRD4186 project :
 
-    <img src="./images/createRCP_Launcher.png" alt="Create RCP Launcher" width="600" class="center">
-
+   <img src="./images/createRCP_Launcher.png" alt="Create RCP Launcher" width="600" class="center">
 2. In the examples list, select `Bootloader - NCP UART XMODEM`
 
-    This is an arbitrary choice, other bootloaders can be used. However we usually go with XMODEM for NCP applications
-
+   This is an arbitrary choice, other bootloaders can be used. However we usually go with XMODEM for NCP applications
 3. On the last step, adapt options as per your preferences and click finish
-
 4. Simply build the project as is and flash it to the device using Simplicity Flash Programmer
 
 ## Creating, Building and Flashing an NCP / RCP CMP firmware to the MCU
@@ -42,13 +39,16 @@ Steps are similar to the bootloader, however we will not use the same example ap
 
 1. Just as we did for the bootloader, we will use Simplicity Studio Launcher to list and create a BRD4186 project :
 
-    <img src="./images/createRCP_Launcher.png" alt="Create RCP Launcher" width="600" class="center">
-
-2. In the examples list, select `Zigbee - NCP + OpenThread - RCP zigbee_ncp-ot_rcp-uart`
-
+   <img src="./images/createRCP_Launcher.png" alt="Create RCP Launcher" width="600" class="center">
+2. In the examples list, select `Zigbee - NCP + OpenThread - RCP zigbee_ncp-ot_rcp-uart   `
 3. On the last step, adapt options as per your preferences and click finish
+4. Modify the project so both Zigbee and OpenThread share the same Channel. Edit `sl_rail_util_ieee802154_fast_channel_switching_config.h`
 
-4. Simply build the project as is and flash it to the device using Simplicity Flash Programmer
+   ```c
+   #define SL_RAIL_UTIL_IEEE802154_FAST_CHANNEL_SWITCHING_ENABLED   0
+   ```
+
+5. Simply build the project as is and flash it to the device using Simplicity Flash Programmer
 
 **Note 1:** If you disabled CPC encryption while configuring your cpc daemon, also disable this using the `CPC SECURITY` component from the `.slcp` file
 

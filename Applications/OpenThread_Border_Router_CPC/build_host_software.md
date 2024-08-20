@@ -18,46 +18,45 @@ Eventually, since we are interested in running Matter, we will need to align ver
 
 ## Identifying Matter/OpenThread related software commit hashes
 
-* Start from CPC, which latest version is available on its [release page](https://github.com/SiliconLabs/cpc-daemon/releases/tag/v4.4.0)
-  * In this case we are running `v4.4.0`
+* Start from CPC, which latest version is available on its [release page](https://github.com/SiliconLabs/cpc-daemon/releases/tag/v4.5.1)
+
+  * In this case we are running `v4.5.1`
   * This can also be retrived on an deployed environment using `cpcd -v`
+* From there we need to look at the [GSDK release page](https://github.com/SiliconLabs/simplicity_sdk/releases) that matches v4.5.1 and look for the [OpenThread Release note](https://www.silabs.com/documents/public/release-notes/open-thread-release-notes-2.5.1.0.pdf) of that release
 
-* From there we need to look at the [GSDK release page](https://github.com/SiliconLabs/gecko_sdk/releases) that matches v4.4.0 and look for the [OpenThread Release note](https://www.silabs.com/documents/public/release-notes/open-thread-release-notes-2.4.0.0.pdf) of that release
-  * Section 8.2 provides : OpenThread GitHub repo (https://github.com/openthread/openthread)
-    up to and including commit `7074a43e4`
+  * Section 8.2 provides : OpenThread GitHub repo (<https://github.com/openthread/openthread>)
+    up to and including commit `1fceb225b`
   * Section 8.3 provides : OpenThread border router GitHub repo
-    (https://github.com/openthread/ot-br-posix) up to and including commit `42f98b27b`
+    (<https://github.com/openthread/ot-br-posix>) up to and including commit `e56c02006`
+* Finally, if we want to use Matter over this router, we need to go to Silicon Labs' `matter_extension` repository [release page](https://github.com/SiliconLabs/matter_extension/releases) and look for the one that uses the same Simplicity SDK `v2024.6.1` as we are, this appears to be [Matter Extension v2.3.1](https://github.com/SiliconLabs/matter_extension/releases/tag/v2.3.1)-1.3
 
-* Finally, if we want to use Matter over this router, we need to go to Silicon Labs' `matter_extension` repository [release page](https://github.com/SiliconLabs/matter_extension/releases) and look for the one that uses the same `v4.4.0` as we are, this appears to be [Matter Extension v2.2.0](https://github.com/SiliconLabs/matter_extension/releases/tag/v2.2.0)-1.2
-
-  * Version listing provides : Gecko SDK `v4.4.0`
-  * Version listing provides : OpenThread: `v2.4.0.0` | hash [7074a43e4](https://github.com/openthread/openthread/tree/7074a43e4)
-  * Version listing provides : Matter hash `d140d5c8775`
+  * Version listing provides : Simpicity SDK `v2024.6.1`
+  * Version listing provides : OpenThread: `v2.5.1.0` | hash [1fceb225b](https://github.com/openthread/openthread/tree/1fceb225b)
+  * Version listing provides : Matter hash `5bb5c9e`
 
 At this point we are sure that Gecko SDK and OpenThread versions and hashes align . We also know which Matter and OTBR hash we will be using
 
-In summary for developments with RCP from Simplicity Studio on GSDK 4.4.0 will require following hashes :
+In summary for developments with RCP from Simplicity Studio on Simplicity SDK 2024.6.1 will require following hashes :
 
 ### CPC Daemon (CPCd)
 
 | Repo                                      | Branch | Tag    | Commit Hash                              |
 | ----------------------------------------- | ------ | ------ | ---------------------------------------- |
-| https://github.com/SiliconLabs/cpc-daemon | main   | v4.4.0 | 1fcaa81347466165f81e4533ee4471e9c3b6db0a |
+| <https://github.com/SiliconLabs/cpc-daemon> | main   | v4.5.1 | 9720f3087833a4c04263e06392dce7aa585a01a2 |
 
 ### Gecko SDK Suite (GSDK)
 
-| Repo                                     | Branch   | Tag    | Commit Hash                              |
-| ---------------------------------------- | -------- | ------ | ---------------------------------------- |
-| https://github.com/SiliconLabs/gecko_sdk | gsdk_4.4 | v4.4.0 | 124fa19de8c8b3961d21c20857f7df32239786da |
+| Repo                                     | Branch                     | Tag       | Commit Hash                              |
+| ---------------------------------------- | -------------------------  | --------- | ---------------------------------------- |
+| <https://github.com/SiliconLabs/gecko_sdk> | simplicitysdk_2024.6.1   | v2024.6.1 | aa5ce2e835dfdce8c20fb828f27d3a261946f946 |
 
 If chiptool build is required :
 
 ### Connectivity Standards Alliance (CSA) connectedhomeip (Matter)
 
-| Repo                                            | Branch | Tag    | Commit Hash                              |
-| ----------------------------------------------- | ------ | ------ | ---------------------------------------- |
-| https://github.com/project-chip/connectedhomeip | master |        | d140d5c87751603278f2483523993ee81922e7be |
-
+| Repo                                            | Branch | Tag | Commit Hash                              |
+| ----------------------------------------------- | ------ | --- | ---------------------------------------- |
+| <https://github.com/project-chip/connectedhomeip> | master |     | 5bb5c9e23d532cea40476fc0bd1d3008522792ba |
 
 ### Silicon Labs fork of Connectivity Standards Alliance (CSA) connectedhomeip (Matter) used in Simplicity Studio
 
@@ -66,7 +65,7 @@ This does not allow builds **outside of Simplicity Studio**
 
 | Repo                                            | Branch | Tag    | Commit Hash                              |
 | ----------------------------------------------- | ------ | ------ | ---------------------------------------- |
-| https://github.com/SiliconLabs/matter_extension | main   | v2.2.0 | 73910fc57180440b09722040b1c847d5030e156e |
+| <https://github.com/SiliconLabs/matter_extension> | main   | v2.3.1 | 578f76f7accd060dd9bceffe56898467353488a3 |
 
 If required, everything can be built from sources using below each repo hash (Not covered in this guide, where we cover only building from GSDK) :
 
@@ -74,13 +73,13 @@ If required, everything can be built from sources using below each repo hash (No
 
 | Repo                                     | Branch | Tag | Commit Hash                              |
 | ---------------------------------------- | ------ | --- | ---------------------------------------- |
-| https://github.com/openthread/openthread | main   |     | 7074a43e4577d32d5535d52e7940ed2ea7e3a528 |
+| <https://github.com/openthread/openthread> | main   |     | 1fceb225b3858a990ffb6ce28f30b8b3dfba1614 |
 
 ### OpenThread Border Router (OTBR)
 
-| Repo                                       | Branch | Tag    | Commit Hash                              |
-| ------------------------------------------ | ------ | ------ | ---------------------------------------- |
-| https://github.com/openthread/ot-br-posix  | main   | v4.4.0 | 42f98b27bc7f54951c860cd98ce5ff7c7fedc68c |
+| Repo                                      | Branch | Tag    | Commit Hash                              |
+| ----------------------------------------- | ------ | ------ | ---------------------------------------- |
+| <https://github.com/openthread/ot-br-posix> | main   |        | e56c020069a1409497526e755450b6e8136002ce |
 
 ## Downloading and Building OTBR Agent
 
@@ -94,12 +93,12 @@ We go back to our working directory :
 cd ~/border_router_dev
 ```
 
-And clone Gecko SDK version 4.4.0 :
+And clone Gecko SDK version 2024.6.1 :
 
 ```bash
-git clone https://github.com/SiliconLabs/gecko_sdk.git
-cd gecko_sdk
-git checkout v4.4.0
+git clone https://github.com/SiliconLabs/simplicity_sdk.git
+cd simplicity_sdk
+git checkout v2024.6.1
 ```
 
 ### Building OTBR Agent
@@ -109,18 +108,21 @@ Building OTBR Agent requires a lot of extra steps from GSDK.
 1. First we need to symlink the OpenThread repo from GSDK to the ot-br-posix third party repo :
 
    ```bash
-   ln -s ~/border_router_dev/gecko_sdk/util/third_party/openthread/ ~/border_router_dev/gecko_sdk/util/third_party/ot-br-posix/third_party/openthread/repo 
+   ln -s ~/border_router_dev/simplicity_sdk/util/third_party/openthread/ ~/border_router_dev/simplicity_sdk/util/third_party/ot-br-posix/third_party/openthread/repo 
    ```
+
 2. Copy the Silicon Labs specific platform header to the ot-br-posix folder
 
    ```bash
-   cp protocol/openthread/platform-abstraction/posix/openthread-core-silabs-posix-config.h util/third_party/openthread/src/posix/platform/
+   cp ~/border_router_dev/simplicity_sdk/protocol/openthread/platform-abstraction/posix/openthread-core-silabs-posix-config.h ~/border_router_dev/simplicity_sdk/util/third_party/openthread/src/posix/platform/
    ```
+
 3. Set the GSDK absolute path as an environment variable
 
    ```bash
-   export GSDK_DIR=~/border_router_dev/gecko_sdk
+   export GSDK_DIR=~/border_router_dev/simplicity_sdk
    ```
+
 4. Set the CPCd source directory path as an environment variable
 
    ```bash
@@ -132,7 +134,7 @@ At this stage we are ready to launch the OTBR Agent build command with CPC suppo
 Go into the `ot-br-posix` folder :
 
 ```bash
-cd ~/border_router_dev/gecko_sdk/util/third_party/ot-br-posix/
+cd ~/border_router_dev/simplicity_sdk/util/third_party/ot-br-posix/
 ```
 
 To launch the build procedure run :
@@ -146,11 +148,8 @@ This will install all dependencies required to build the agent and can take a wh
 Followed by :
 
 ```bash
-sudo INFRA_IF_NAME=eth0 RELEASE=1 REFERENCE_DEVICE=1 BACKBONE_ROUTER=1 BORDER_ROUTING=1 NAT64=1 DNS64=1 OTBR_OPTIONS="-DOT_THREAD_VERSION=1.3 -DOT_MULTIPAN_RCP=ON -DCPCD_SOURCE_DIR=$CPCD_DIR -DOT_POSIX_RCP_VENDOR_BUS=ON -DOT_POSIX_CONFIG_RCP_VENDOR_DEPS_PACKAGE=$GSDK_DIR/protocol/openthread/platform-abstraction/posix/posix_vendor_rcp.cmake -DOT_POSIX_CONFIG_RCP_VENDOR_INTERFACE=$GSDK_DIR/protocol/openthread/platform-abstraction/posix/cpc_interface.cpp -DOT_CONFIG=openthread-core-silabs-posix-config.h -DOTBR_DUA_ROUTING=ON -DOTBR_DNSSD_DISCOVERY_PROXY=ON -DOTBR_SRP_ADVERTISING_PROXY=ON" ./script/setup
+sudo INFRA_IF_NAME=eth0 RELEASE=1 REFERENCE_DEVICE=1 BACKBONE_ROUTER=1 BORDER_ROUTING=1 NAT64=1 DNS64=1 OTBR_OPTIONS="-DOT_THREAD_VERSION=1.4 -DOT_MULTIPAN_RCP=ON -DCPCD_SOURCE_DIR=$CPCD_DIR -DOT_POSIX_RCP_VENDOR_BUS=ON -DOT_POSIX_CONFIG_RCP_VENDOR_DEPS_PACKAGE=$GSDK_DIR/protocol/openthread/platform-abstraction/posix/posix_vendor_rcp.cmake -DOT_POSIX_CONFIG_RCP_VENDOR_INTERFACE=$GSDK_DIR/protocol/openthread/platform-abstraction/posix/cpc_interface.cpp -DOT_CLI_VENDOR_EXTENSION=$GSDK_DIR/protocol/openthread/platform-abstraction/posix/posix_vendor_cli.cmake -DOT_PLATFORM_CONFIG=openthread-core-silabs-posix-config.h -DOTBR_DUA_ROUTING=ON -DOTBR_DNSSD_DISCOVERY_PROXY=ON -DOTBR_SRP_ADVERTISING_PROXY=ON" ./script/setup
 ```
-
-***Be careful, AN1333 contains a lot of typos and errors if you use the command provided there***
-***It is also not up to date as to the -DOT_POSIX_RCP_VENDOR_BUS=ON usage***
 
 ## Building Zigbee 3.0 CPC Host
 
