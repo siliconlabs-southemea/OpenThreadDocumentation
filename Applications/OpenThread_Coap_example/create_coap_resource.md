@@ -25,7 +25,7 @@ In the configuration view, scroll down to the select COAP API and optionnaly COA
 
 Now we can start using Coap inside the cli like described [here](https://openthread.io/reference/cli/concepts/coap?hl=fr), or by adding code.
 
-## 2. cretate a resource
+## 2. create a resource
 
 Server resource in coap is the structure through which communication happens.
 
