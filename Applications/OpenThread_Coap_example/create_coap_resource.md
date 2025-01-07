@@ -227,7 +227,7 @@ It requires a bootloader so, if you do not have one, please flash one. A good ex
 
 open a terminal on each of the developper board CLI.
 
-### 3.1 Start node 1 (ot-cli-ftd)
+### 3.1 Start node 1 
 
 Generate, view, and commit a new Active Operational Dataset:
 
@@ -283,7 +283,7 @@ fe80:0:0:0:6c41:9001:f3d6:4148
 Done
 ```
 
-### 3.2 Start node 2 (ot-cli-ftd or ot-cli-mtd)
+### 3.2 Start node 2 
 
 Configure the Thread Network Key from Node 1's Active Operational Dataset:
 
