@@ -11,6 +11,12 @@ To simplify testing, we will start from the ot-cli-ftd example available in Simp
 
 Hardware used will be the [xG24-DK2601B ](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)(EFR32MG24 developper kit).
 
+If you want to get modified files:
+
+- [app.c](src/app.c)
+- [coap_server.c](src/coap_server.cpp)
+- [full project](src/ot-cli-ftd.sls)
+
 ## 1. add coap support to your project
 
 Open your project slcp file in Studio, then select software component and search for ftd.
