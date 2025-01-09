@@ -66,6 +66,7 @@ static const char *UriPath = "gpio";
 uint8_t gpioState[3] = "OFF";
 otCoapResource coapResourcegpio;
 static otInstance *sInstance = NULL;
+otMessage *responseMessage;
 
 extern "C" void coap_server_init(otInstance *aInstance)
 {
@@ -88,6 +89,9 @@ extern "C" void coap_server_init(otInstance *aInstance)
   // Create the resource
   otCoapAddResource(aInstance, &coapResourcegpio);
 
+  // create response message
+  responseMessage = otCoapNewMessage((otInstance*)aInstance, NULL);
+
   // Some comment on the cli to understand the Coap server is ready
   otCliOutputFormat("\nCoAP server initialized\r\n");
 
@@ -103,7 +107,6 @@ now we need to create the handler pointed in the resource structure to respond t
 void coap_request_handler(void *aContext, otMessage *aMessage, const otMessageInfo *aMessageInfo)
 {
   otError error = OT_ERROR_NONE;
-  otMessage *responseMessage;
   otCoapCode responseCode = OT_COAP_CODE_CHANGED;
   otCoapCode messageCode = otCoapMessageGetCode(aMessage);  // read code (get,put,post..)
   otCoapType messageType = otCoapMessageGetType(aMessage);  // read message type (confirmable or not)
@@ -115,8 +118,6 @@ void coap_request_handler(void *aContext, otMessage *aMessage, const otMessageIn
   data[read] = '\0';
 
   // prepare any message or at leastacknowledge response if confirmation is required
-  responseMessage = otCoapNewMessage((otInstance*)aContext, NULL);
-
   otCoapMessageInitResponse(responseMessage, aMessage, OT_COAP_TYPE_ACKNOWLEDGMENT, responseCode);
   otCoapMessageSetToken(responseMessage, otCoapMessageGetToken(aMessage), otCoapMessageGetTokenLength(aMessage));
   otCoapMessageSetPayloadMarker(responseMessage);
