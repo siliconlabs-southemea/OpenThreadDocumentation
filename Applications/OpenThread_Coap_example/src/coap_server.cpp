@@ -17,7 +17,6 @@ const char *multicastAddress = "ff03::1";
 static const char *UriPath = "gpio";
 uint8_t gpioState[3] = "OFF";
 otCoapResource coapResourcegpio;
-otMessage *responseMessage;
 
 static otInstance *sInstance = NULL;
 
@@ -29,6 +28,7 @@ static otInstance *sInstance = NULL;
 void coap_request_handler(void *aContext, otMessage *aMessage, const otMessageInfo *aMessageInfo)
 {
   otError error = OT_ERROR_NONE;
+  otMessage *responseMessage;
 
   otCoapCode responseCode = OT_COAP_CODE_CHANGED;
   otCoapCode messageCode = otCoapMessageGetCode(aMessage);  // read code (get,put,post..)
@@ -42,7 +42,8 @@ void coap_request_handler(void *aContext, otMessage *aMessage, const otMessageIn
 
   // prepare and send acknowledge response message
 
-
+  // create response message
+  responseMessage = otCoapNewMessage((otInstance*)aContext, NULL);
   otCoapMessageInitResponse(responseMessage, aMessage, OT_COAP_TYPE_ACKNOWLEDGMENT, responseCode);
   otCoapMessageSetToken(responseMessage, otCoapMessageGetToken(aMessage), otCoapMessageGetTokenLength(aMessage));
   otCoapMessageSetPayloadMarker(responseMessage);
@@ -169,9 +170,6 @@ extern "C" void coap_server_init(otInstance *aInstance)
    coapResourcegpio.mNext=NULL;
 
    otCoapAddResource(aInstance, &coapResourcegpio);
-
-   // create response message
-   responseMessage = otCoapNewMessage((otInstance*)aInstance, NULL);
 
    otCliOutputFormat("\nCoAP server initialized\r\n");
 

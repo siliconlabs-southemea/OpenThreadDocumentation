@@ -35,7 +35,7 @@ Now we can start using Coap inside the cli like described [here](https://openthr
 
 Server resource in coap is the structure through which communication happens.
 
-in our case the resource will be named "gpio" and controlled using the PUT method with ON, OFF and TOGGLE commands. 
+in our case the resource will be named "gpio" and controlled using the PUT method with ON, OFF and TOGGLE commands.
 
 ON and OFF are also states you could read back with a GET method
 
@@ -66,7 +66,6 @@ static const char *UriPath = "gpio";
 uint8_t gpioState[3] = "OFF";
 otCoapResource coapResourcegpio;
 static otInstance *sInstance = NULL;
-otMessage *responseMessage;
 
 extern "C" void coap_server_init(otInstance *aInstance)
 {
@@ -89,9 +88,6 @@ extern "C" void coap_server_init(otInstance *aInstance)
   // Create the resource
   otCoapAddResource(aInstance, &coapResourcegpio);
 
-  // create response message
-  responseMessage = otCoapNewMessage((otInstance*)aInstance, NULL);
-
   // Some comment on the cli to understand the Coap server is ready
   otCliOutputFormat("\nCoAP server initialized\r\n");
 
@@ -99,14 +95,13 @@ extern "C" void coap_server_init(otInstance *aInstance)
 
 ```
 
-
-
 now we need to create the handler pointed in the resource structure to respond to the coap message:
 
 ```c
 void coap_request_handler(void *aContext, otMessage *aMessage, const otMessageInfo *aMessageInfo)
 {
   otError error = OT_ERROR_NONE;
+  otMessage *responseMessage;
   otCoapCode responseCode = OT_COAP_CODE_CHANGED;
   otCoapCode messageCode = otCoapMessageGetCode(aMessage);  // read code (get,put,post..)
   otCoapType messageType = otCoapMessageGetType(aMessage);  // read message type (confirmable or not)
@@ -118,6 +113,7 @@ void coap_request_handler(void *aContext, otMessage *aMessage, const otMessageIn
   data[read] = '\0';
 
   // prepare any message or at leastacknowledge response if confirmation is required
+  responseMessage = otCoapNewMessage((otInstance*)aContext, NULL);
   otCoapMessageInitResponse(responseMessage, aMessage, OT_COAP_TYPE_ACKNOWLEDGMENT, responseCode);
   otCoapMessageSetToken(responseMessage, otCoapMessageGetToken(aMessage), otCoapMessageGetTokenLength(aMessage));
   otCoapMessageSetPayloadMarker(responseMessage);
@@ -192,8 +188,6 @@ void coap_request_handler(void *aContext, otMessage *aMessage, const otMessageIn
 
 ```
 
-
-
 Finally we need to call the coap_server_init() function from the app.c. We should integrate this call as the stack is initialized and commissioned to a network.
 
 This is the case as the Thread device role is greater than DETACHED. it is then either a LEADER, a ROUTER or a CHILD:
@@ -234,7 +228,7 @@ It requires a bootloader so, if you do not have one, please flash one. A good ex
 
 open a terminal on each of the developper board CLI.
 
-### 3.1 Start node 1 
+### 3.1 Start node 1
 
 Generate, view, and commit a new Active Operational Dataset:
 
@@ -290,7 +284,7 @@ fe80:0:0:0:6c41:9001:f3d6:4148
 Done
 ```
 
-### 3.2 Start node 2 
+### 3.2 Start node 2
 
 Configure the Thread Network Key from Node 1's Active Operational Dataset:
 
@@ -324,7 +318,6 @@ child
 Done
 ```
 
-
 ### 3.3 send coap messages
 
 Wait to get the following message on the CLI to get sure COAP server is running on both nodes:
@@ -350,7 +343,6 @@ Done
 ```
 
 4f4646 is OFF in ASCII which is the LED state at init on node 1.
-
 
 #### 3.3.2 PUT command
 
