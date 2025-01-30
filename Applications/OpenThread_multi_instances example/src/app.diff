@@ -1,0 +1,135 @@
+diff --git a/include/AppConfig.h b/include/AppConfig.h
+index 4e1b833..4aee946 100644
+--- a/include/AppConfig.h
++++ b/include/AppConfig.h
+@@ -29,7 +29,7 @@
+
+ // Time it takes in ms for the simulated actuator to move from one
+ // state to another.
+-#define ACTUATOR_MOVEMENT_PERIOS_MS 100
++#define ACTUATOR_MOVEMENT_PERIOS_MS 10
+
+ #define ON_DEMO_BITMAP                                                                                                             \
+     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f, 0xfc,  \
+diff --git a/include/AppTask.h b/include/AppTask.h
+index c42415d..52c0747 100644
+--- a/include/AppTask.h
++++ b/include/AppTask.h
+@@ -78,6 +78,8 @@ public:
+     static void ButtonEventHandler(uint8_t button, uint8_t btnAction);
+     void PostLightActionRequest(int32_t aActor, LightingManager::Action_t aAction);
+
++    bool mSendCoapMessage;
++
+ private:
+     static AppTask sAppTask;
+diff --git a/include/AppEvent.h b/include/AppEvent.h
+index e3c880c..7a19b71 100644
+--- a/include/AppEvent.h
++++ b/include/AppEvent.h
+@@ -30,7 +30,6 @@ struct AppEvent
+         kEventType_Timer,
+         kEventType_Light,
+         kEventType_Install,
+-        kEventType_Coap,
+     };
+
+     uint16_t Type;
+diff --git a/src/AppTask.cpp b/src/AppTask.cpp
+index 2aac81b..ea0c8e1 100644
+--- a/src/AppTask.cpp
++++ b/src/AppTask.cpp
+@@ -114,14 +114,9 @@ CHIP_ERROR AppTask::Init()
+     return err;
+ }
+ 
+-extern CHIP_ERROR StartCoapTask();
+-
+ CHIP_ERROR AppTask::StartAppTask()
+ {
+-  CHIP_ERROR error = BaseApplication::StartAppTask(AppTaskMain);
+-  if (error != CHIP_NO_ERROR)
+-    return error;
+-  return StartCoapTask();
++    return BaseApplication::StartAppTask(AppTaskMain);
+ }
+ 
+ void AppTask::AppTaskMain(void * pvParameter)
+@@ -160,24 +155,19 @@ void AppTask::LightActionEventHandler(AppEvent * aEvent)
+     int32_t actor;
+     CHIP_ERROR err = CHIP_NO_ERROR;
+ 
+-    switch (aEvent->Type)
++    if (aEvent->Type == AppEvent::kEventType_Light)
+     {
+-      case AppEvent::kEventType_Light:
+         action = static_cast<LightingManager::Action_t>(aEvent->LightEvent.Action);
+         actor  = aEvent->LightEvent.Actor;
+-        break;
+-      case AppEvent::kEventType_Button:
++    }
++    else if (aEvent->Type == AppEvent::kEventType_Button)
++    {
+         action = (LightMgr().IsLightOn()) ? LightingManager::OFF_ACTION : LightingManager::ON_ACTION;
+         actor  = AppEvent::kEventType_Button;
+-        break;
+-      case AppEvent::kEventType_Coap:
+-        action = (LightMgr().IsLightOn()) ? LightingManager::OFF_ACTION : LightingManager::ON_ACTION;
+-        actor  = AppEvent::kEventType_Coap;
+-        break;
+-      default:
++    }
++    else
++    {
+         err = APP_ERROR_UNHANDLED_EVENT;
+-        break;
+-
+     }
+ 
+     if (err == CHIP_NO_ERROR)
+@@ -221,30 +211,14 @@ void AppTask::ActionInitiated(LightingManager::Action_t aAction, int32_t aActor)
+     sAppTask.GetLCD().WriteDemoUI(lightOn);
+ #endif
+ 
+-    switch (aActor)
++    if (aActor == AppEvent::kEventType_Button)
+     {
+-      case AppEvent::kEventType_Button:
+         sAppTask.mSyncClusterToButtonAction = true;
+-        sAppTask.mSendCoapMessage = true;
+-        break;
+-      case AppEvent::kEventType_Coap:
+-        sAppTask.mSyncClusterToButtonAction = true;
+-        sAppTask.mSendCoapMessage = false;
+-        break;
+-      default:
+-        sAppTask.mSyncClusterToButtonAction = false;
+-        sAppTask.mSendCoapMessage = true;
+-        break;
+     }
+-
+-    SILABS_LOG("Action initiated: %d, %d", sAppTask.mSyncClusterToButtonAction,  sAppTask.mSendCoapMessage);
+ }
+ 
+-extern void send_coap_command(void);
+-
+ void AppTask::ActionCompleted(LightingManager::Action_t aAction)
+ {
+-    SILABS_LOG("Action completed: %d, %d", sAppTask.mSyncClusterToButtonAction,  sAppTask.mSendCoapMessage);
+     // action has been completed bon the light
+     if (aAction == LightingManager::ON_ACTION)
+     {
+@@ -255,13 +229,6 @@ void AppTask::ActionCompleted(LightingManager::Action_t aAction)
+         SILABS_LOG("Light OFF")
+     }
+ 
+-    if (sAppTask.mSendCoapMessage)
+-    {
+-      //Send a Coap command
+-      send_coap_command();
+-      sAppTask.mSendCoapMessage = false;
+-    }
+-
+     if (sAppTask.mSyncClusterToButtonAction)
+     {
+         chip::DeviceLayer::PlatformMgr().ScheduleWork(UpdateClusterState, reinterpret_cast<intptr_t>(nullptr));
