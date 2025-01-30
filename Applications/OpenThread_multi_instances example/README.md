@@ -1,7 +1,7 @@
 ---
 sort: 12
 ---
-# 11- OpenThread Coap example
+# 12- OpenThread Multi Instances example
 
 ## Summary
 

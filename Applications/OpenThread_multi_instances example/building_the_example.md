@@ -9,7 +9,7 @@ In this section we will configure a MatterLightOverThread project to support Ope
 
 Hardware used in this example is [BRD4186C](https://www.silabs.com/development-tools/wireless/xg24-rb4186c-efr32xg24-wireless-gecko-radio-board?tab=overview)(EFR32MG24 developper kit)
 
-![1736247193853](image/4186C.png)
+![1736247193853](image/4186C.PNG)
 
 This tutorial is based on SiSDK2024.12.x 
 The full project is located [here](https://github.com/seb-fae/MatterLightOverThread_dual_instances)
@@ -18,7 +18,7 @@ The full project is located [here](https://github.com/seb-fae/MatterLightOverThr
 
 ### 1. First step is to create a MatterLightOverThread project for BRD4186C. 
 
-![1736247193853](image/MatterLightOverThread.png)
+![1736247193853](image/MatterLightOverThread.PNG)
 
 ### 2. Add the following components to the project
 
@@ -28,7 +28,7 @@ The full project is located [here](https://github.com/seb-fae/MatterLightOverThr
 ### 3. Modify the PSA crypto configuration
 
 The **PSA User Maximum Open Keys Count** value of **Platform->Security->PSA Crypto->Configuration** component should be increased to 8:
-![1736247193853](image/key.png)
+![1736247193853](image/key.PNG)
 
 ### 4. Enable the following features in Openthread Stack FTD component:
 
@@ -37,11 +37,11 @@ The **PSA User Maximum Open Keys Count** value of **Platform->Security->PSA Cryp
 * Multiple Static Instance Support
 * COAP API
 
-![1736247193853](image/stackftd.png)
+![1736247193853](image/stackftd.PNG)
 
 ### 5. Define the **SL_RAIL_UTIL_IEEE802154_FAST_CHANNEL_SWITCHING_ENABLED** macro in your project configuration. To avoid any issue this should be done for C, C++ and assembler section
 
-![1736247193853](image/macro.png)
+![1736247193853](image/macro.PNG)
 
 ### 6. Add openthread-spinel-config.h file to your project
 
