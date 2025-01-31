@@ -11,4 +11,4 @@ Latest OpenThread SDK and SiSDK [2024.12.0 or later](https://github.com/SiliconL
 
 Example provided has been tested on [BRD4186C](https://www.silabs.com/development-tools/wireless/xg24-rb4186c-efr32xg24-wireless-gecko-radio-board?tab=overview)(EFR32MG24 developper kit).
 
-![1736259068098](image/4186C.png)
+![1736259068098](image/4186C.PNG)
