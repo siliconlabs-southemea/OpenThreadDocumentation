@@ -14,6 +14,12 @@ Hardware used in this example is [BRD4186C] (https://www.silabs.com/development-
 This tutorial is based on SiSDK2024.12.x 
 The full project is located [here](https://github.com/seb-fae/MatterLightOverThread_dual_instances)
 
+You can also get a **.sls** file of the project [here](src/MatterLightOverThread_dual_instances.sls) and a **executable** for BRD4186C [here](src/MatterLightOverThread_dual_instances.s37)
+
+
+This example is considered to be **EXPERIMENTAL QUALITY** which implies that the code provided in the repos has not been formally tested and is provided as-is
+
+
 ## 1. Create and modify the MatterLightOverThread project
 
 ### 1. First step is to create a MatterLightOverThread project for BRD4186C. 
