@@ -5,9 +5,9 @@ sort: 2
 
 In this section we will configure a MatterLightOverThread project to support OpenThread Multi-Instance functionality.
 - The first Thread instance will be dedicated to the Matter application
-- The second Thread instance will be used for proprietary application
+- The second Thread instance will be used for COAP proprietary application
 
-Hardware used in this example is [BRD4186C](https://www.silabs.com/development-tools/wireless/xg24-rb4186c-efr32xg24-wireless-gecko-radio-board?tab=overview)(EFR32MG24 developper kit)
+Hardware used in this example is [BRD4186C] (https://www.silabs.com/development-tools/wireless/xg24-rb4186c-efr32xg24-wireless-gecko-radio-board?tab=overview)(EFR32MG24 developper kit)
 
 ![1736247193853](image/4186C.PNG)
 
@@ -28,6 +28,7 @@ The full project is located [here](https://github.com/seb-fae/MatterLightOverThr
 ### 3. Modify the PSA crypto configuration
 
 The **PSA User Maximum Open Keys Count** value of **Platform->Security->PSA Crypto->Configuration** component should be increased to 8:
+
 ![1736247193853](image/key.PNG)
 
 ### 4. Enable the following features in Openthread Stack FTD component:
@@ -39,7 +40,7 @@ The **PSA User Maximum Open Keys Count** value of **Platform->Security->PSA Cryp
 
 ![1736247193853](image/stackftd.PNG)
 
-### 5. Define the **SL_RAIL_UTIL_IEEE802154_FAST_CHANNEL_SWITCHING_ENABLED** macro in your project configuration. To avoid any issue this should be done for C, C++ and assembler section
+### 5. Define the ***SL_RAIL_UTIL_IEEE802154_FAST_CHANNEL_SWITCHING_ENABLED*** macro in your project configuration. To avoid any issue this should be done for C, C++ and assembler section
 
 ![1736247193853](image/macro.PNG)
 
@@ -52,6 +53,7 @@ The **PSA User Maximum Open Keys Count** value of **Platform->Security->PSA Cryp
 
 Two files located under **protocol/openthread/platform-abstraction/efr32/** needs to be modified.
 The two modified files and the associated diff file can be found there:
+
 - [flash.c](src/flash.c)
 - [radio.c](src/radio.c)
 - [diff](src/sdk.diff)
@@ -83,7 +85,7 @@ The diff file of all these above modifications can be accessed [here](src/openth
 
 ### 9. Create the proprietary application
 
-The Matter application uses a first Thread instance. The proprietary application COAP on top of a second thread instance. This is how the two Thread instances are declared: 
+The Matter application uses a first Thread instance. The proprietary application is running COAP on top of a second thread instance. This is how the two Thread instances are declared: 
 
 ```c
 /* otInstanceInitSingle is used by the Matter framework to declare the first 

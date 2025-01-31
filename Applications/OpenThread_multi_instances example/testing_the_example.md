@@ -27,10 +27,10 @@ Since console is connected to second Thread instance, you can retrieve the datas
 ````
 otcli dataset active -x
 ````
-![1736256558922](image/dataset.png)
+![1736256558922](image/dataset.PNG)
 
 
-Once you have retrieved the proprietary Thread network dataset, you can configure a COAP client to join your Thread network created by the second instance and then receive COAP commands sent by this client.
+Once you have retrieved the proprietary Thread network dataset, you can configure a COAP client to join your Thread network and then receive COAP commands sent by this client.
 
 This is documented in the following [example](../OpenThread_Coap_example/)
 
