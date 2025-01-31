@@ -16,8 +16,7 @@ The full project is located [here](https://github.com/seb-fae/MatterLightOverThr
 
 You can also get a **.sls** file of the project [here](src/MatterLightOverThread_dual_instances.sls) and a **executable** for BRD4186C [here](src/MatterLightOverThread_dual_instances.s37)
 
-This example is considered to be **EXPERIMENTAL QUALITY** which implies that the code provided in the repos has not been formally tested and is provided as-is
-
+This example is considered to be **EXPERIMENTAL QUALITY** which implies that the code provided in the guide has not been formally tested and is provided as-is
 
 ## 1. Create and modify the MatterLightOverThread project
 
