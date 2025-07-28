@@ -1,7 +1,7 @@
 ---
 sort: 1
 ---
-# OpenThread Border Router Certification + Matter Certification Guide
+# OpenThread Border Router Certification Guide
 
 ## Introduction
 
@@ -114,7 +114,7 @@ These libraries can be found under `<gecko_sdk>\protocol\openthread\libs`, and c
 **Thread 1.4 Certification Status**
 
 As of release 2.5.0.0, the SDK defaults to Thread 1.3, while Thread 1.4 features are under development and not yet certified.
-The certification table shows Thread 1.4 certification is available in the 2024.12.0 release for EFR32MG24 and EFR32MG26 devices.
+The certification table shows Thread 1.4 certification is available in the 2025.6.0 release for EFR32MG24 and EFR32MG26 devices.
 
 To achieve "Built on Thread Border Router" certification, you need to undergo ATL testing, as inheritance is not available for border router devices.
 
